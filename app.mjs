@@ -1,5 +1,6 @@
 import express from "express";
 import connectionPool from "./utils/db.mjs";
+import validateCreatePostData from "./middlewares/post.validation.mjs";
 
 const app = express();
 const port = process.env.PORT || 4001;
@@ -20,7 +21,7 @@ app.get("/posts", async (req, res) => {
 });
 
 // Creat new post
-app.post("/posts", async (req, res) => {
+app.post("/posts",validateCreatePostData, async (req, res) => {
   const newPost = req.body;
   try {
     const query = `INSERT INTO posts (title, image, category_id, description, content, status_id)
